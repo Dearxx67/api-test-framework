@@ -1,0 +1,48 @@
+# GitHub Actions 备选 CI：没有 Jenkins 服务器时的零成本替代方案
+# 触发：push / PR，与 Jenkinsfile 保持同样的阶段划分
+name: API Automation CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      - name: 配置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: 安装依赖
+        run: pip install -r requirements.txt
+
+      - name: 启动被测服务
+        run: |
+          nohup python -m uvicorn mock_server.app:app --port 8000 > mock_server.log 2>&1 &
+          for i in $(seq 1 10); do curl -sf http://127.0.0.1:8000/health && break; sleep 1; done
+          curl -sf http://127.0.0.1:8000/health || (cat mock_server.log && exit 1)
+
+      - name: 执行接口自动化测试
+        run: pytest
+
+      - name: 上传 Allure 结果产物
+        if: always()   # 失败也要上传，便于查看报告定位
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: reports/allure-results
+
+      - name: 上传测试日志
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: reports/logs/

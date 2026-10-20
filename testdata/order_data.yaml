@@ -1,0 +1,37 @@
+# ===== 订单模块测试数据 =====
+
+create:
+  # 正向：库存充足商品
+  valid:
+    goods_id: "1001"          # 机械键盘 299 元，库存 100
+    unit_price: 299.0
+    quantity: 2
+    expected_status: 200
+    expected_order_status: "pending"
+
+  # 反向场景集合：数据驱动，一行一个用例
+  invalid_cases:
+    - case: "商品不存在"
+      goods_id: "9999"
+      quantity: 1
+      expected_status: 400
+      expected_detail_contains: "不存在"
+    - case: "库存不足"
+      goods_id: "1003"        # 4K显示器库存为 0
+      quantity: 1
+      expected_status: 400
+      expected_detail_contains: "库存不足"
+    - case: "购买数量非法(0)"
+      goods_id: "1001"
+      quantity: 0
+      expected_status: 400
+      expected_detail_contains: "至少为 1"
+    - case: "购买数量非法(负数)"
+      goods_id: "1001"
+      quantity: -3
+      expected_status: 400
+      expected_detail_contains: "至少为 1"
+
+cancel:
+  invalid_token: "this_is_a_fake_token"
+  not_exist_order_id: "no_such_order"

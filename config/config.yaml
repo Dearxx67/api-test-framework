@@ -1,0 +1,23 @@
+# 环境配置：通过 ENV 环境变量切换（dev / test / prod）
+# 切换方式：set ENV=test && pytest
+
+default_env: dev
+
+env:
+  dev:
+    base_url: http://127.0.0.1:8000
+    timeout: 5
+    username: admin
+    password: admin123
+
+  test:
+    base_url: http://test-server.example.com:8000
+    timeout: 10
+    username: test_user
+    password: test_pass
+
+  prod:
+    base_url: http://prod-server.example.com
+    timeout: 10
+    username: prod_user
+    password: prod_pass

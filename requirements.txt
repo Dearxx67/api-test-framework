@@ -1,0 +1,14 @@
+# ===== 核心测试栈 =====
+requests>=2.31.0          # HTTP 请求库
+pytest>=8.0.0             # 测试框架
+allure-pytest>=2.13.0     # Allure 报告插件
+pyyaml>=6.0.1             # YAML 数据驱动
+faker>=24.0.0             # 测试数据生成
+responses>=0.25.0         # requests 的 Mock 库
+
+# ===== 模拟后端（被测服务） =====
+fastapi>=0.110.0
+uvicorn>=0.29.0
+
+# ===== 性能测试 =====
+locust>=2.24.0
