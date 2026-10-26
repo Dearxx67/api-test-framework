@@ -70,6 +70,26 @@ allure open reports/allure-report
 
 切换测试环境：`set ENV=test && pytest`（Windows）/ `ENV=test pytest`（Linux）
 
+## 查看测试报告（三种方式，按需选用）
+
+**方式一：单文件 HTML 报告（推荐分享给他人，零门槛）**
+
+跑完 pytest 后自动生成 `reports/report.html`——**双击直接在浏览器打开**，无需安装任何工具。
+（由 pytest-html 插件生成，`--self-contained-html` 参数把样式全部内联进单文件，方便直接分享）
+
+**方式二：Allure 完整报告（本机已装 allure CLI + Java）**
+
+```bash
+allure generate reports/allure-results -o reports/allure-report --clean
+allure open reports/allure-report --port 9090   # 浏览器访问 http://127.0.0.1:9090
+```
+提供 epic/feature/story 业务分层、step 步骤、失败断言详情等完整视图。
+
+**方式三：云端报告（无需 clone 项目）**
+
+GitHub 仓库 → Actions 页 → 任意一次运行 → Artifacts 区下载 `html-report`（单文件报告）
+与 `allure-results`（原始数据），前者直接打开，后者供深入分析。
+
 ## 压测指标示例（20 并发用户 / 15s）
 
 | 指标 | 数值 |
