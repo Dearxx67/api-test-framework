@@ -1,7 +1,8 @@
 # ===== 核心测试栈 =====
 requests>=2.31.0          # HTTP 请求库
-pytest>=8.0.0             # 测试框架
-allure-pytest>=2.13.0     # Allure 报告插件
+pytest>=8.0.0,<9.0.0     # 测试框架（锁 8.x：与 pytest-html 3.x 单文件报告兼容）
+pytest-html>=3.2.0,<4.0.0  # 单文件 HTML 报告（3.x 支持 --self-contained 单文件分享；4.x 已移除该参数）
+allure-pytest>=2.13.0     # Allure 报告插件（完整分层报告，需 allure CLI 查看）
 pyyaml>=6.0.1             # YAML 数据驱动
 faker>=24.0.0             # 测试数据生成
 responses>=0.25.0         # requests 的 Mock 库
