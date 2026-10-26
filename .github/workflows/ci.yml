@@ -40,6 +40,13 @@ jobs:
           name: allure-results
           path: reports/allure-results
 
+      - name: 上传单文件 HTML 报告
+        if: always()   # 双击即可查看，供未安装 allure 工具的人快速查看结果
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report
+          path: reports/report.html
+
       - name: 上传测试日志
         if: always()
         uses: actions/upload-artifact@v4
